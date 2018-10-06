@@ -36,7 +36,8 @@ public class HandStrategy {
                     else
                         return Action.HIT;
                 case 5:
-                    if (dealerCardVal <= 9)
+                    if ((currentHand.isStartingHand() || (config.doubleAfterSplit && numOfCards == 2))
+                            && dealerCardVal <= 9)
                         return Action.DOUBLE_DOWN;
                     else
                         return Action.HIT;
@@ -84,14 +85,18 @@ public class HandStrategy {
                 return Action.STAND;
             } else
             if(handSum == 19) {
-                if(dealerCardVal == 6 && config.hitsSoft17) {
+                if((currentHand.isStartingHand() || (config.doubleAfterSplit && numOfCards == 2)) &&
+                        config.doubleDownOptions == 0 &&
+                        dealerCardVal == 6 && config.hitsSoft17) {
                     return Action.DOUBLE_DOWN;
                 } else {
                     return Action.STAND;
                 }
             } else
             if(handSum == 18) {
-                if(dealerCardVal <= 6) {
+                if((currentHand.isStartingHand() || (config.doubleAfterSplit && numOfCards == 2)) &&
+                        config.doubleDownOptions == 0 &&
+                        dealerCardVal <= 6) {
                     return Action.DOUBLE_DOWN;
                 } else
                 if(dealerCardVal <= 8) {
@@ -101,21 +106,27 @@ public class HandStrategy {
                 }
             } else
             if(handSum == 17) {
-                if(dealerCardVal <= 6 && dealerCardVal >= 3) {
+                if((currentHand.isStartingHand() || (config.doubleAfterSplit && numOfCards == 2)) &&
+                        config.doubleDownOptions == 0 &&
+                        dealerCardVal <= 6 && dealerCardVal >= 3) {
                     return Action.DOUBLE_DOWN;
                 } else {
                     return Action.HIT;
                 }
             } else
             if(handSum >= 15) {
-                if(dealerCardVal <= 6 && dealerCardVal >= 4) {
+                if((currentHand.isStartingHand() || (config.doubleAfterSplit && numOfCards == 2)) &&
+                        config.doubleDownOptions == 0 &&
+                        dealerCardVal <= 6 && dealerCardVal >= 4) {
                     return Action.DOUBLE_DOWN;
                 } else {
                     return Action.HIT;
                 }
             } else
             if(handSum >= 13) {
-                if(dealerCardVal <= 6 && dealerCardVal >= 5) {
+                if((currentHand.isStartingHand() || (config.doubleAfterSplit && numOfCards == 2)) &&
+                        config.doubleDownOptions == 0 &&
+                        dealerCardVal <= 6 && dealerCardVal >= 5) {
                     return Action.DOUBLE_DOWN;
                 } else {
                     return Action.HIT;
@@ -186,14 +197,17 @@ public class HandStrategy {
                 }
             } else
             if (handSum == 10) {
-                if(numOfCards == 2 && dealerCardVal <= 9) {
+                if((currentHand.isStartingHand() || (config.doubleAfterSplit && numOfCards == 2))
+                        && dealerCardVal <= 9) {
                     return Action.DOUBLE_DOWN;
                 } else {
                     return Action.HIT;
                 }
             } else
             if (handSum == 9) {
-                if(numOfCards == 2 && dealerCardVal <= 6 && dealerCardVal >= 3) {
+                if((currentHand.isStartingHand() || (config.doubleAfterSplit && numOfCards == 2))
+                        && config.doubleDownOptions <= 1
+                        && dealerCardVal <= 6 && dealerCardVal >= 3) {
                     return Action.DOUBLE_DOWN;
                 } else {
                     return Action.HIT;

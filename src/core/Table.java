@@ -98,9 +98,9 @@ public class Table {
 
             for(Hand hand : hands) {
                 hand.match(dealerHand.getValue(), dealerHand.isBusted(), dealerHand.isBj());
-//                System.out.println(hand);
+                System.out.println(hand);
             }
-//            System.out.println(dealerHand);
+            System.out.println(dealerHand);
         }
 
         System.out.println("CL:" +
@@ -111,9 +111,11 @@ public class Table {
         System.out.println("TC:" + shoe.getTrueCount() + "\n");
 
         for(Hand hand : hands) {
-//            System.out.println(hand.getHandName() + "(" + hand.getCoins() + ")");
+            System.out.println(hand.getHandName() + "(" + hand.getCoins() + ")");
             hand.clearHand();
         }
+        System.out.println();
+
         dealerHand.clearHand();
     }
 

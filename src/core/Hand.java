@@ -120,9 +120,9 @@ public class Hand {
         } else
         //Ha 1x splittelt mar
         if(splitHands.size() == 2) {
-            if(splitHands.get(0).isPair()){
+            if(splitHands.get(currentSplitHand).isPair()){
                 Hand hand3 = new Hand(handName + ": 3 ");
-                Card iCard = splitHands.get(0).removeCard(1);
+                Card iCard = splitHands.get(currentSplitHand).removeCard(1);
 
                 hand3.hit(iCard);
 
@@ -135,9 +135,9 @@ public class Hand {
         }else
         //Ha 2x splittelt mar
         if(splitHands.size() == 3) {
-            if(splitHands.get(0).isPair()){
+            if(splitHands.get(currentSplitHand).isPair()){
                 Hand hand4 = new Hand(handName + ": 4 ");
-                Card iCard = splitHands.get(0).removeCard(1);
+                Card iCard = splitHands.get(currentSplitHand).removeCard(1);
 
                 hand4.hit(iCard);
 
@@ -180,7 +180,10 @@ public class Hand {
     }
 
     public boolean isPair() {
-        return cards.size() == 2 && cards.get(0).getValue() == cards.get(1).getValue();
+        if(splitted)
+            return splitHands.get(currentSplitHand).isPair();
+        else
+            return cards.size() == 2 && cards.get(0).getValue() == cards.get(1).getValue();
     }
 
     public Card getCard(int index) {
@@ -200,7 +203,7 @@ public class Hand {
     }
 
     public int splitNumber () {
-        return Math.min(splitHands.size()-1, 0);
+        return Math.max(splitHands.size()-1, 0);
     }
 
     public void match(int dealerSum, boolean dealerBusted, boolean dealerBj) {
