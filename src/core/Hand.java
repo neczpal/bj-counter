@@ -17,6 +17,7 @@ public class Hand {
     private boolean bj;
     private boolean busted;
     private boolean surrendered;
+    private boolean splitChildHand;
     private int value;
 
     private int wager;
@@ -24,12 +25,17 @@ public class Hand {
 
     private int coins = 0;
 
-    public Hand (String handName) {
+    public Hand(String handName) {
+        this(handName, false);
+    }
+
+    public Hand (String handName, boolean splitChildHand) {
         this.handName = handName;
         cards = new ArrayList<>();
         soft = false;
         splitHands = new ArrayList<>();
         wager_bet = 2;
+        this.splitChildHand = splitChildHand;
 
         clearHand();
     }
@@ -100,8 +106,8 @@ public class Hand {
         }
         //Ha meg nincs splittelve
         if(splitHands.size() == 0 && isPair()) {
-            Hand hand1 = new Hand(handName + ": 1 ");
-            Hand hand2 = new Hand(handName + ": 2 ");
+            Hand hand1 = new Hand(handName + ": 1 ", true);
+            Hand hand2 = new Hand(handName + ": 2 ", true);
 
             hand1.hit(cards.get(0));
             hand2.hit(cards.get(1));
@@ -121,7 +127,7 @@ public class Hand {
         //Ha 1x splittelt mar
         if(splitHands.size() == 2) {
             if(splitHands.get(currentSplitHand).isPair()){
-                Hand hand3 = new Hand(handName + ": 3 ");
+                Hand hand3 = new Hand(handName + ": 3 ", true);
                 Card iCard = splitHands.get(currentSplitHand).removeCard(1);
 
                 hand3.hit(iCard);
@@ -136,7 +142,7 @@ public class Hand {
         //Ha 2x splittelt mar
         if(splitHands.size() == 3) {
             if(splitHands.get(currentSplitHand).isPair()){
-                Hand hand4 = new Hand(handName + ": 4 ");
+                Hand hand4 = new Hand(handName + ": 4 ", true);
                 Card iCard = splitHands.get(currentSplitHand).removeCard(1);
 
                 hand4.hit(iCard);
@@ -282,7 +288,7 @@ public class Hand {
 
         if (sum == 21){
             standing = true;
-            if( isStartingHand()) {
+            if( isStartingHand() && !splitChildHand) {
                 bj = true;
             }
         }
