@@ -27,8 +27,12 @@ public class Card {
         return false;
     }
 
+    public String getLongName() {
+        return value.getName() + " of " + suit.getName();
+    }
+
     @Override
     public String toString() {
-        return value + " of " + suit;
+        return value +""+ suit;
     }
 }

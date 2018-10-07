@@ -28,7 +28,7 @@ public class Main {
         mainTable.addHand("Mama");
         mainTable.addHand("Hangyas");
 
-        for(int i=0;i <1000; i++)
+        for(int i=0;i <100; i++)
             mainTable.deal();
 
 

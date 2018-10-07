@@ -20,8 +20,8 @@ public class Hand {
     private boolean splitChildHand;
     private int value;
 
-    private int wager;
-    private int wager_bet;
+    private double wager;
+    private double wager_bet;
 
     private int coins = 0;
 
@@ -34,7 +34,7 @@ public class Hand {
         cards = new ArrayList<>();
         soft = false;
         splitHands = new ArrayList<>();
-        wager_bet = 2;
+        wager_bet = 1.;
         this.splitChildHand = splitChildHand;
 
         clearHand();
@@ -155,7 +155,7 @@ public class Hand {
             }
         }
     }
-    public void setWager(int wager) {
+    public void setWager(double wager) {
         this.wager = wager;
     }
     public int getValue () {
@@ -215,7 +215,7 @@ public class Hand {
     public void match(int dealerSum, boolean dealerBusted, boolean dealerBj) {
         if (surrendered) {
             coins -= wager/2;
-            wager_bet *= 2;
+//            wager_bet *= 2;
         } else
         if (splitted) {
             int wagerSum = 0;
@@ -226,34 +226,34 @@ public class Hand {
             }
             coins += wagerSum;
             if(wagerSum < 0){
-                wager_bet *= 2;
+//                wager_bet *= 2;
             } else {
-                wager_bet = 2;
+//                wager_bet = 2;
             }
         } else
         if(!busted) {
             if(bj && !dealerBj) {
                 coins += wager * 3 / 2;
-                wager_bet = 2;
+//                wager_bet = 2;
             } else
             if (dealerBj) {
                 coins -= wager;
-                wager_bet *= 2;
+//                wager_bet *= 2;
             } else
             if (dealerBusted) {
                 coins += wager;
-                wager_bet = 2;
+//                wager_bet = 2;
             } else
             if (value > dealerSum) {
                 coins += wager;
-                wager_bet = 2;
+//                wager_bet = 2;
             } else if (value < dealerSum) {
                 coins -= wager;
-                wager_bet *= 2;
+//                wager_bet *= 2;
             }
         } else {
             coins -= wager;
-            wager_bet *= 2;
+//            wager_bet *= 2;
         }
     }
 
@@ -320,14 +320,16 @@ public class Hand {
                 stringBuilder.append(handName + " " + value + " (" + (value - 10) + ")\n");
             } else if (busted) {
                 stringBuilder.append(handName + " " + value + " (BUSTED)\n");
-
+            } else if (surrendered) {
+                stringBuilder.append(handName + " " + value + " (SURRENDERED)\n");
             } else {
                 stringBuilder.append(handName + " " + value + "\n");
             }
 
             for (Card card : cards) {
-                stringBuilder.append(card + "\n");
+                stringBuilder.append(card + " ");
             }
+            stringBuilder.append("\n");
         }
 
         return stringBuilder.toString();

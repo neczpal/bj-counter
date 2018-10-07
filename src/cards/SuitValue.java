@@ -6,18 +6,24 @@ import static cards.ColorValue.RED;
 
 public enum SuitValue {
 
-    SPADES("Spades", BLACK), HEARTS("Hearts", RED), DIAMONDS("Diamonds", RED), CLUBS("Clubs", BLACK);
+    SPADES("Spades","♠", BLACK), HEARTS("Hearts", "♡", RED), DIAMONDS("Diamonds", "♢", RED), CLUBS("Clubs", "♣", BLACK);
 
     public String name;
+    public String icon;
     public ColorValue color;
 
-    SuitValue (String name, ColorValue color) {
+    SuitValue (String name,String icon, ColorValue color) {
         this.name = name;
         this.color = color;
+        this.icon = icon;
     }
 
     @Override
     public String toString() {
+        return icon;
+    }
+
+    public String getName() {
         return name;
     }
 }
