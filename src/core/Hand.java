@@ -1,6 +1,7 @@
 package core;
 
 import cards.Card;
+import core.betstrategies.BetStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +22,18 @@ public class Hand {
     private int value;
 
     private double wager;
-    private double wager_bet;
+    private BetStrategy betStrategy;
+    private double coins = 0;
 
-    private int coins = 0;
 
     public Hand(String handName) {
         this(handName, false);
+    }
+
+    public Hand(String handName, BetStrategy betStrategy) {
+        this(handName, false);
+
+        this.betStrategy = betStrategy;
     }
 
     public Hand (String handName, boolean splitChildHand) {
@@ -34,7 +41,6 @@ public class Hand {
         cards = new ArrayList<>();
         soft = false;
         splitHands = new ArrayList<>();
-        wager_bet = 1.;
         this.splitChildHand = splitChildHand;
 
         clearHand();
@@ -50,10 +56,18 @@ public class Hand {
         splitted = false;
         surrendered = false;
         currentSplitHand = 0;
-        wager = wager_bet;
         splitHands.clear();
     }
+    //BET STATE
+    public void setWagerBet() {
+        wager = betStrategy.calculateNextBet();
+    }
 
+    public void setWager(double wager) {
+        this.wager = wager;
+    }
+
+    //PLAY STATE
     public void surrender () {
         standing = true;
         surrendered = true;
@@ -155,14 +169,16 @@ public class Hand {
             }
         }
     }
-    public void setWager(double wager) {
-        this.wager = wager;
-    }
+
     public int getValue () {
         if(splitted && currentSplitHand < splitHands.size()) {
             return splitHands.get(currentSplitHand).getValue();
         } else
         return value;
+    }
+
+    public boolean isPlaying() {
+        return wager > 0;
     }
 
     public boolean isStanding() {
@@ -215,7 +231,7 @@ public class Hand {
     public void match(int dealerSum, boolean dealerBusted, boolean dealerBj) {
         if (surrendered) {
             coins -= wager/2;
-//            wager_bet *= 2;
+//            wagerBet *= 2;
         } else
         if (splitted) {
             int wagerSum = 0;
@@ -226,34 +242,34 @@ public class Hand {
             }
             coins += wagerSum;
             if(wagerSum < 0){
-//                wager_bet *= 2;
+//                wagerBet *= 2;
             } else {
-//                wager_bet = 2;
+//                wagerBet = 2;
             }
         } else
         if(!busted) {
             if(bj && !dealerBj) {
                 coins += wager * 3 / 2;
-//                wager_bet = 2;
+//                wagerBet = 2;
             } else
             if (dealerBj) {
                 coins -= wager;
-//                wager_bet *= 2;
+//                wagerBet *= 2;
             } else
             if (dealerBusted) {
                 coins += wager;
-//                wager_bet = 2;
+//                wagerBet = 2;
             } else
             if (value > dealerSum) {
                 coins += wager;
-//                wager_bet = 2;
+//                wagerBet = 2;
             } else if (value < dealerSum) {
                 coins -= wager;
-//                wager_bet *= 2;
+//                wagerBet *= 2;
             }
         } else {
             coins -= wager;
-//            wager_bet *= 2;
+//            wagerBet *= 2;
         }
     }
 
@@ -300,7 +316,7 @@ public class Hand {
         return handName;
     }
 
-    public int getCoins() {
+    public double getCoins() {
         return coins;
     }
 

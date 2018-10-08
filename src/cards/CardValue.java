@@ -17,6 +17,15 @@ public enum CardValue {
         this.value = value;
     }
 
+    public static CardValue toCardValue (String shortName) {
+        for(CardValue cardValue : values()){
+            if(cardValue.shortName.equals(shortName)){
+                return cardValue;
+            }
+        }
+        return null;
+    }
+
     public String getName() {
         return name;
     }

@@ -10,6 +10,7 @@ public class Table {
     private RuleConfig config;
 
     private List<Hand> hands;
+    private List<Hand> sitOutHands;
     private Hand dealerHand;
 
     private Shoe shoe;
@@ -23,25 +24,40 @@ public class Table {
     public Table(RuleConfig config, List<Hand> hands) {
         this.config = config;
         this.hands = hands;
+        this.sitOutHands = new ArrayList<>();
         this.handStrategy = new HandStrategy(config);
 
         this.dealerHand = new Hand("Dealer");
-        newShoe();
-    }
-
-    private void newShoe() {
         this.shoe = new Shoe(config.numberOfDecks);
-        shoe.shuffleCards();
-        System.out.println("New Shoe");
     }
 
-    public void addHand(String handname) {
-        hands.add(new Hand(handname));
+    public Shoe getShoe() {
+        return shoe;
     }
 
+    private void resetShoe() {
+        this.shoe.resetShoe(config.numberOfDecks);
+    }
+
+    public void addHand(String handName) {
+        hands.add(new Hand(handName));
+    }
+
+    public void addHand(Hand hand) {
+        hands.add(hand);
+    }
+    public void setWagers() {
+        for (Hand hand : hands) {
+            hand.setWagerBet();
+            if(!hand.isPlaying()){
+                sitOutHands.add(hand);
+            }
+        }
+        hands.removeAll(sitOutHands);
+    }
     public void deal() {
-        if(shoe.getCardsLeftCount() / 52 < 3){
-            newShoe();
+        if(shoe.getCardsLeftCount() / 52 < 4){
+            resetShoe();
         }
 
         if (hands.isEmpty()) {
@@ -98,25 +114,33 @@ public class Table {
 
             for(Hand hand : hands) {
                 hand.match(dealerHand.getValue(), dealerHand.isBusted(), dealerHand.isBj());
-                System.out.println(hand);
+//                System.out.println(hand);
             }
-            System.out.println(dealerHand);
+//            System.out.println(dealerHand);
         }
 
-        System.out.println("CL:" +
-                shoe.getCardsLeftCount());
-        System.out.println("RC:" +
-                shoe.getRunningCount());
+//        System.out.println("Hi-Lo:" +
+//                shoe.getHiLoTrueCount());
+//        System.out.println("Omega:" +
+//                shoe.getOmegaTrueCount());
+//        System.out.println("Wong:" + shoe.getWongHalvesTrueCount() + "\n");
 
-        System.out.println("TC:" + shoe.getTrueCount() + "\n");
+        hands.addAll(sitOutHands);
+        sitOutHands.clear();
 
         for(Hand hand : hands) {
-            System.out.println(hand.getHandName() + "(" + hand.getCoins() + ")");
             hand.clearHand();
         }
-        System.out.println();
+//        System.out.println();
 
         dealerHand.clearHand();
+    }
+
+    public void writeCoins() {
+        for(Hand hand : hands) {
+            System.out.println(hand.getHandName() + "(" + hand.getCoins() + ")");
+        }
+        System.out.println();
     }
 
 }

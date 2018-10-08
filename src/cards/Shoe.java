@@ -9,31 +9,39 @@ public class Shoe {
 
     private List<Card> cards;
 
-    private int runningCount;
-    private int trueCount;
+    private double hiLoCount;
+    private double omegaCount;
+    private double wongHalvesCount;
 
     public Shoe() {
         this(1);
     }
 
     public Shoe(int numberOfDecks) {
-        cards  = new ArrayList<>();
-
-        for(int i = 0; i < numberOfDecks; ++i) {
-            for (CardValue value : CardValue.values()){
-                for(SuitValue suit : SuitValue.values()) {
-                    cards.add(new Card(value, suit));
-                }
-            }
-        }
-        runningCount = 0;
-        trueCount = 0;
+        resetShoe(numberOfDecks);
     }
 
     public Shoe(List<Card> cards) {
         this.cards = cards;
     }
 
+    public void resetShoe(int numberOfDecks) {
+        cards  = new ArrayList<>();
+
+        for(int i = 0; i < numberOfDecks; ++i) {
+            for (CardValue value : CardValue.values()){
+                for(SuitValue suit : SuitValue.values()) {
+                    if(suit != SuitValue.ANY)
+                        cards.add(new Card(value, suit));
+                }
+            }
+        }
+        hiLoCount = 0;
+        omegaCount = 0;
+        wongHalvesCount = 0;
+
+        shuffleCards();
+    }
 
     public boolean removeCard (Card card) {
         return cards.remove(card);
@@ -57,23 +65,150 @@ public class Shoe {
         Card iCard = cards.get(0);
         cards.remove(0);
 
-        if(iCard.getValue().value >= 10) {
-            runningCount--;
+        int cardValue = iCard.getValue().value;
+
+        //HI LO COUNT
+        if(cardValue >= 10) {
+            hiLoCount--;
         } else
-        if(iCard.getValue().value <= 6) {
-            runningCount++;
+        if(cardValue <= 6) {
+            hiLoCount++;
+        }
+
+        //OMEGA COUNT
+        switch (cardValue){
+            case 2:
+            case 3:
+            case 7:
+                omegaCount += 1;
+                break;
+            case 4:
+            case 5:
+            case 6:
+                omegaCount += 2;
+                break;
+            case 9:
+                omegaCount -= 1;
+                break;
+            case 10:
+                omegaCount -= 2;
+                break;
+        }
+
+        //WONG HALVES COUNT
+        switch (cardValue){
+            case 2:
+            case 7:
+                wongHalvesCount += 0.5;
+                break;
+            case 3:
+            case 4:
+            case 6:
+                wongHalvesCount += 1;
+                break;
+            case 5:
+                wongHalvesCount += 1.5;
+                break;
+            case 9:
+                wongHalvesCount -= 0.5;
+                break;
+            case 10:
+            case 11:
+                wongHalvesCount -= 1;
+                break;
         }
 
         return iCard;
     }
 
-    public int getRunningCount(){
-        return runningCount;
+    public Card dealSpecificCard(Card card) throws Exception{
+        if (!cards.remove(card)){
+            throw new Exception("Nincs mar az adott lap a pakliban!");
+        }
+
+
+        int cardValue = card.getValue().value;
+
+        //HI LO COUNT
+        if(cardValue >= 10) {
+            hiLoCount--;
+        } else
+        if(cardValue <= 6) {
+            hiLoCount++;
+        }
+
+        //OMEGA COUNT
+        switch (cardValue){
+            case 2:
+            case 3:
+            case 7:
+                omegaCount += 1;
+                break;
+            case 4:
+            case 5:
+            case 6:
+                omegaCount += 2;
+                break;
+            case 9:
+                omegaCount -= 1;
+                break;
+            case 10:
+                omegaCount -= 2;
+                break;
+        }
+
+        //WONG HALVES COUNT
+        switch (cardValue){
+            case 2:
+            case 7:
+                wongHalvesCount += 0.5;
+                break;
+            case 3:
+            case 4:
+            case 6:
+                wongHalvesCount += 1;
+                break;
+            case 5:
+                wongHalvesCount += 1.5;
+                break;
+            case 9:
+                wongHalvesCount -= 0.5;
+                break;
+            case 10:
+            case 11:
+                wongHalvesCount -= 1;
+                break;
+        }
+
+
+        return card;
     }
 
-    public int getTrueCount () {
-        return runningCount / (cards.size()/52);
+    public double getHiLoCount(){
+        return hiLoCount;
     }
+
+    public double getHiLoTrueCount() {
+        return hiLoCount / (cards.size()/52.0);
+    }
+
+    public double getOmegaCount(){
+        return omegaCount;
+    }
+
+    public double getOmegaTrueCount() {
+        return omegaCount / (cards.size()/52.0);
+    }
+
+    public double getWongHalvesCount(){
+        return wongHalvesCount;
+    }
+
+    public double getWongHalvesTrueCount() {
+        return wongHalvesCount / (cards.size()/52.0);
+    }
+
+
     public int getCardsLeftCount () {
         return cards.size();
     }

@@ -6,7 +6,9 @@ import static cards.ColorValue.RED;
 
 public enum SuitValue {
 
-    SPADES("Spades","♠", BLACK), HEARTS("Hearts", "♡", RED), DIAMONDS("Diamonds", "♢", RED), CLUBS("Clubs", "♣", BLACK);
+    SPADES("Spades","♠", BLACK), HEARTS("Hearts", "♡", RED),
+    DIAMONDS("Diamonds", "♢", RED), CLUBS("Clubs", "♣", BLACK),
+    ANY ("Any", "x", null);
 
     public String name;
     public String icon;

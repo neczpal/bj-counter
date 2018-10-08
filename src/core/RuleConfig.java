@@ -13,7 +13,7 @@ public class RuleConfig {
     public int numberOfDecks;
     public boolean continuesShuffling;
 
-    public static RuleConfig DEFAULT = new RuleConfig(3/2., false, true, 0, 3, 1, false, true, 1, 8, false);
+    public static RuleConfig DEFAULT = new RuleConfig(3/2., false, false, 0, 1, 1, false, true, 0, 8, false);
 
     public RuleConfig(double bjPays, boolean dealerPeeks, boolean hitsSoft17, int doubleDownOptions, int splitX, int splitA, boolean drawToSplitAces, boolean doubleAfterSplit, int surrenderOptions, int numberOfDecks, boolean continuesShuffling) {
         this.bjPays = bjPays;
