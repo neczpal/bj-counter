@@ -1,4 +1,4 @@
-package cards;
+package net.neczpal.cards;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,20 +12,24 @@ public class Shoe {
     private double hiLoCount;
     private double omegaCount;
     private double wongHalvesCount;
+    private double aceCount;
+
+    private int numberOfDecks;
 
     public Shoe() {
         this(1);
     }
 
     public Shoe(int numberOfDecks) {
-        resetShoe(numberOfDecks);
+        this.numberOfDecks = numberOfDecks;
+        resetShoe();
     }
 
     public Shoe(List<Card> cards) {
         this.cards = cards;
     }
 
-    public void resetShoe(int numberOfDecks) {
+    public void resetShoe() {
         cards  = new ArrayList<>();
 
         for(int i = 0; i < numberOfDecks; ++i) {
@@ -39,6 +43,7 @@ public class Shoe {
         hiLoCount = 0;
         omegaCount = 0;
         wongHalvesCount = 0;
+        aceCount = 0;
 
         shuffleCards();
     }
@@ -129,6 +134,10 @@ public class Shoe {
 
         int cardValue = card.getValue().value;
 
+        if (cardValue == 11) {
+            aceCount++;
+        }
+
         //HI LO COUNT
         if(cardValue >= 10) {
             hiLoCount--;
@@ -208,9 +217,35 @@ public class Shoe {
         return wongHalvesCount / (cards.size()/52.0);
     }
 
+    public double getAcesCount() {
+        return (numberOfDecks * 4 - aceCount) / cards.size();
+    }
+
+    public boolean isInsuranceWorthIt() {
+        double numTens = 0.;
+        for (Card card : cards) {
+            if (card.getValue().value == 10)
+                numTens++;
+        }
+
+        return numTens / cards.size() > 0.33;
+    }
 
     public int getCardsLeftCount () {
         return cards.size();
+    }
+
+    public void writeAllCards() {
+        int[] counts = new int[10];
+
+        for (Card card : cards) {
+            counts[card.getValue().value - 2]++;
+        }
+
+        for (int i = 0; i < 10; i++) {
+            System.out.print((i + 2) + ": " + counts[i] + "\n");
+        }
+        System.out.println();
     }
 
     @Override

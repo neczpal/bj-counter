@@ -1,4 +1,4 @@
-package cards;
+package net.neczpal.cards;
 
 public enum CardValue {
 

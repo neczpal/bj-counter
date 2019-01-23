@@ -1,4 +1,4 @@
-package core.betstrategies;
+package net.neczpal.core.betstrategies;
 
 public class ConstantBet implements BetStrategy{
 

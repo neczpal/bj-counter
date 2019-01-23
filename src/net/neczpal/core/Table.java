@@ -1,6 +1,6 @@
-package core;
+package net.neczpal.core;
 
-import cards.Shoe;
+import net.neczpal.cards.Shoe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public class Table {
     }
 
     private void resetShoe() {
-        this.shoe.resetShoe(config.numberOfDecks);
+        this.shoe.resetShoe();
     }
 
     public void addHand(String handName) {
@@ -56,7 +56,7 @@ public class Table {
         hands.removeAll(sitOutHands);
     }
     public void deal() {
-        if(shoe.getCardsLeftCount() / 52 < 4){
+        if (shoe.getCardsLeftCount() / 52 < config.cutDeck) {
             resetShoe();
         }
 
@@ -114,9 +114,9 @@ public class Table {
 
             for(Hand hand : hands) {
                 hand.match(dealerHand.getValue(), dealerHand.isBusted(), dealerHand.isBj());
-//                System.out.println(hand);
+                System.out.println(hand);
             }
-//            System.out.println(dealerHand);
+            System.out.println(dealerHand);
         }
 
 //        System.out.println("Hi-Lo:" +

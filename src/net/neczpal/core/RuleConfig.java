@@ -1,4 +1,4 @@
-package core;
+package net.neczpal.core;
 
 public class RuleConfig {
     public double bjPays; // 3/2, 7/5, 6/5, 1/1
@@ -12,10 +12,11 @@ public class RuleConfig {
     public int surrenderOptions; // 0 - not allowed, 1 - allowed against anything except Ace, 2 - allowed against anything
     public int numberOfDecks;
     public boolean continuesShuffling;
+    public int cutDeck;
 
-    public static RuleConfig DEFAULT = new RuleConfig(3/2., false, false, 0, 1, 1, false, true, 0, 8, false);
+    public static RuleConfig DEFAULT = new RuleConfig(3 / 2., false, false, 0, 3, 1, false, true, 2, 8, 3, false);
 
-    public RuleConfig(double bjPays, boolean dealerPeeks, boolean hitsSoft17, int doubleDownOptions, int splitX, int splitA, boolean drawToSplitAces, boolean doubleAfterSplit, int surrenderOptions, int numberOfDecks, boolean continuesShuffling) {
+    public RuleConfig(double bjPays, boolean dealerPeeks, boolean hitsSoft17, int doubleDownOptions, int splitX, int splitA, boolean drawToSplitAces, boolean doubleAfterSplit, int surrenderOptions, int numberOfDecks, int cutDeck, boolean continuesShuffling) {
         this.bjPays = bjPays;
         this.dealerPeeks = dealerPeeks;
         this.hitsSoft17 = hitsSoft17;
@@ -27,5 +28,6 @@ public class RuleConfig {
         this.surrenderOptions = surrenderOptions;
         this.numberOfDecks = numberOfDecks;
         this.continuesShuffling = continuesShuffling;
+        this.cutDeck = cutDeck;
     }
 }

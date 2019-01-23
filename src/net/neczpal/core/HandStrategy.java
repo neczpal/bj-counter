@@ -1,6 +1,6 @@
-package core;
+package net.neczpal.core;
 
-import cards.Card;
+import net.neczpal.cards.Card;
 
 public class HandStrategy {
 
