@@ -1,6 +1,6 @@
-package net.neczpal.core.betstrategies;
+package net.neczpal.bjcounter.core.betstrategies;
 
-import net.neczpal.cards.Shoe;
+import net.neczpal.bjcounter.cards.Shoe;
 
 public class CountingBet extends ConstantBet {
 

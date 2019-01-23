@@ -1,6 +1,6 @@
-package net.neczpal.core;
+package net.neczpal.bjcounter.core;
 
-import net.neczpal.cards.Card;
+import net.neczpal.bjcounter.cards.Card;
 
 public class HandStrategy {
 

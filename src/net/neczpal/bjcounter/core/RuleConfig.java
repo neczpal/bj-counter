@@ -1,4 +1,4 @@
-package net.neczpal.core;
+package net.neczpal.bjcounter.core;
 
 public class RuleConfig {
     public double bjPays; // 3/2, 7/5, 6/5, 1/1

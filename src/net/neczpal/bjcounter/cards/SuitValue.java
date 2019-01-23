@@ -1,8 +1,8 @@
-package net.neczpal.cards;
+package net.neczpal.bjcounter.cards;
 
 
-import static net.neczpal.cards.ColorValue.BLACK;
-import static net.neczpal.cards.ColorValue.RED;
+import static net.neczpal.bjcounter.cards.ColorValue.BLACK;
+import static net.neczpal.bjcounter.cards.ColorValue.RED;
 
 public enum SuitValue {
 

@@ -1,6 +1,6 @@
-package net.neczpal.core;
+package net.neczpal.bjcounter.core;
 
-import net.neczpal.cards.Shoe;
+import net.neczpal.bjcounter.cards.Shoe;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,10 +1,10 @@
-package net.neczpal;
+package net.neczpal.bjcounter;
 
-import net.neczpal.core.Hand;
-import net.neczpal.core.RuleConfig;
-import net.neczpal.core.Table;
-import net.neczpal.core.betstrategies.ConstantBet;
-import net.neczpal.core.betstrategies.CountingBet;
+import net.neczpal.bjcounter.core.Hand;
+import net.neczpal.bjcounter.core.RuleConfig;
+import net.neczpal.bjcounter.core.Table;
+import net.neczpal.bjcounter.core.betstrategies.ConstantBet;
+import net.neczpal.bjcounter.core.betstrategies.CountingBet;
 
 
 public class Simulator {

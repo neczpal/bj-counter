@@ -1,9 +1,9 @@
-package net.neczpal;
+package net.neczpal.bjcounter;
 
-import net.neczpal.cards.Card;
-import net.neczpal.cards.CardValue;
-import net.neczpal.cards.Shoe;
-import net.neczpal.cards.SuitValue;
+import net.neczpal.bjcounter.cards.Card;
+import net.neczpal.bjcounter.cards.CardValue;
+import net.neczpal.bjcounter.cards.Shoe;
+import net.neczpal.bjcounter.cards.SuitValue;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

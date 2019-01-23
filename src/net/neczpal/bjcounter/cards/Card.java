@@ -1,4 +1,4 @@
-package net.neczpal.cards;
+package net.neczpal.bjcounter.cards;
 
 public class Card {
 

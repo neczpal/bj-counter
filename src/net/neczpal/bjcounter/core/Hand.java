@@ -1,7 +1,7 @@
-package net.neczpal.core;
+package net.neczpal.bjcounter.core;
 
-import net.neczpal.cards.Card;
-import net.neczpal.core.betstrategies.BetStrategy;
+import net.neczpal.bjcounter.cards.Card;
+import net.neczpal.bjcounter.core.betstrategies.BetStrategy;
 
 import java.util.ArrayList;
 import java.util.List;

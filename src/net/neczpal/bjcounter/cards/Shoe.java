@@ -1,4 +1,4 @@
-package net.neczpal.cards;
+package net.neczpal.bjcounter.cards;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -228,7 +228,7 @@ public class Shoe {
                 numTens++;
         }
 
-        return numTens / cards.size() > 0.33;
+        return numTens / cards.size() > 0.3333333;
     }
 
     public int getCardsLeftCount () {
