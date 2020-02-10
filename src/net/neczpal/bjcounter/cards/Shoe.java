@@ -1,5 +1,7 @@
 package net.neczpal.bjcounter.cards;
 
+import net.neczpal.bjcounter.countings.CountingType;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -13,6 +15,9 @@ public class Shoe {
     private double omegaCount;
     private double wongHalvesCount;
     private double aceCount;
+
+    private double[] allCount = new double[CountingType.values ().length];
+    private CountingType[] allCountingTypes = CountingType.values ();
 
     private int numberOfDecks;
 
@@ -45,6 +50,8 @@ public class Shoe {
         wongHalvesCount = 0;
         aceCount = 0;
 
+        allCount = new double[CountingType.values ().length];
+
         shuffleCards();
     }
 
@@ -71,6 +78,14 @@ public class Shoe {
         cards.remove(0);
 
         int cardValue = iCard.getValue().value;
+
+        for (int i = 0; i < allCountingTypes.length; i++) {
+            if(cardValue == 11) {
+                allCount[i] += allCountingTypes[i].getValue (0);
+            } else {
+                allCount[i] += allCountingTypes[i].getValue (cardValue - 1);
+            }
+        }
 
         //HI LO COUNT
         if(cardValue >= 10) {
@@ -134,6 +149,14 @@ public class Shoe {
 
         int cardValue = card.getValue().value;
 
+        for (int i = 0; i < allCountingTypes.length; i++) {
+            if(cardValue == 11) {
+                allCount[i] += allCountingTypes[i].getValue (0);
+            } else {
+                allCount[i] += allCountingTypes[i].getValue (cardValue - 1);
+            }
+        }
+
         if (cardValue == 11) {
             aceCount++;
         }
@@ -191,6 +214,11 @@ public class Shoe {
 
 
         return card;
+    }
+
+    public double getCount(CountingType type) {
+        return  allCount[type.ordinal ()] / (cards.size()/52.0);
+//        return type.isBalanced () ? allCount[type.ordinal ()] / (cards.size()/52.0) : allCount[type.ordinal ()];
     }
 
     public double getHiLoCount(){
