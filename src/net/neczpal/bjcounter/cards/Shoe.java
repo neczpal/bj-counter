@@ -3,22 +3,18 @@ package net.neczpal.bjcounter.cards;
 import net.neczpal.bjcounter.countings.CountingType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Shoe {
 
+
+    private double[] allCount = new double[CountingType.values().length];
+    private CountingType[] allCountingTypes = CountingType.values();
+
     private List<Card> cards;
-
-    private double hiLoCount;
-    private double omegaCount;
-    private double wongHalvesCount;
-    private double aceCount;
-
-    private double[] allCount = new double[CountingType.values ().length];
-    private CountingType[] allCountingTypes = CountingType.values ();
-
     private int numberOfDecks;
 
     public Shoe() {
@@ -27,6 +23,7 @@ public class Shoe {
 
     public Shoe(int numberOfDecks) {
         this.numberOfDecks = numberOfDecks;
+        this.cards = new ArrayList<>();
         resetShoe();
     }
 
@@ -34,37 +31,53 @@ public class Shoe {
         this.cards = cards;
     }
 
-    public void resetShoe() {
-        cards  = new ArrayList<>();
+    private void resetCounts() {
+        Arrays.fill(allCount, 0);
+        for (int i = 0; i < allCount.length; i++) {
+            if (allCountingTypes[i].isBalanced()) {
+                allCount[i] = 0;
+            } else {
+                allCount[i] = numberOfDecks * -2;
+            }
+        }
+    }
 
-        for(int i = 0; i < numberOfDecks; ++i) {
-            for (CardValue value : CardValue.values()){
-                for(SuitValue suit : SuitValue.values()) {
-                    if(suit != SuitValue.ANY)
+    private void updateCounts(int cardValue) {
+        for (int i = 0; i < allCountingTypes.length; i++) {
+            if (cardValue == 11) {
+                allCount[i] += allCountingTypes[i].getValue(0);
+            } else {
+                allCount[i] += allCountingTypes[i].getValue(cardValue - 1);
+            }
+        }
+    }
+
+    public void resetShoe() {
+        cards.clear();
+
+        for (CardValue value : CardValue.values()) {
+            for (SuitValue suit : SuitValue.values()) {
+                for (int i = 0; i < numberOfDecks; ++i) {
+                    if (suit != SuitValue.ANY)
                         cards.add(new Card(value, suit));
                 }
             }
         }
-        hiLoCount = 0;
-        omegaCount = 0;
-        wongHalvesCount = 0;
-        aceCount = 0;
 
-        allCount = new double[CountingType.values ().length];
+        resetCounts();
+
 
         shuffleCards();
     }
 
-    public boolean removeCard (Card card) {
+    public boolean removeCard(Card card) {
         return cards.remove(card);
     }
 
     //Fisher–Yates shuffle
     public void shuffleCards() {
-        // If running on Java 6 or older, use `new Random()` on RHS here
         Random rnd = ThreadLocalRandom.current();
-        for (int i = cards.size() - 1; i > 0; i--)
-        {
+        for (int i = cards.size() - 1; i > 0; i--) {
             int index = rnd.nextInt(i + 1);
             // Simple swap
             Card iCard = cards.get(index);
@@ -74,179 +87,29 @@ public class Shoe {
     }
 
     public Card dealCard() {
-        Card iCard = cards.get(0);
-        cards.remove(0);
+        Card card = cards.remove(0);
 
-        int cardValue = iCard.getValue().value;
+        updateCounts(card.getValue().value);
 
-        for (int i = 0; i < allCountingTypes.length; i++) {
-            if(cardValue == 11) {
-                allCount[i] += allCountingTypes[i].getValue (0);
-            } else {
-                allCount[i] += allCountingTypes[i].getValue (cardValue - 1);
-            }
-        }
-
-        //HI LO COUNT
-        if(cardValue >= 10) {
-            hiLoCount--;
-        } else
-        if(cardValue <= 6) {
-            hiLoCount++;
-        }
-
-        //OMEGA COUNT
-        switch (cardValue){
-            case 2:
-            case 3:
-            case 7:
-                omegaCount += 1;
-                break;
-            case 4:
-            case 5:
-            case 6:
-                omegaCount += 2;
-                break;
-            case 9:
-                omegaCount -= 1;
-                break;
-            case 10:
-                omegaCount -= 2;
-                break;
-        }
-
-        //WONG HALVES COUNT
-        switch (cardValue){
-            case 2:
-            case 7:
-                wongHalvesCount += 0.5;
-                break;
-            case 3:
-            case 4:
-            case 6:
-                wongHalvesCount += 1;
-                break;
-            case 5:
-                wongHalvesCount += 1.5;
-                break;
-            case 9:
-                wongHalvesCount -= 0.5;
-                break;
-            case 10:
-            case 11:
-                wongHalvesCount -= 1;
-                break;
-        }
-
-        return iCard;
+        return card;
     }
 
-    public Card dealSpecificCard(Card card) throws Exception{
-        if (!cards.remove(card)){
+    public Card dealSpecificCard(Card card) throws Exception {
+        if (!cards.remove(card)) {
             throw new Exception("Nincs mar az adott lap a pakliban!");
         }
 
-
-        int cardValue = card.getValue().value;
-
-        for (int i = 0; i < allCountingTypes.length; i++) {
-            if(cardValue == 11) {
-                allCount[i] += allCountingTypes[i].getValue (0);
-            } else {
-                allCount[i] += allCountingTypes[i].getValue (cardValue - 1);
-            }
-        }
-
-        if (cardValue == 11) {
-            aceCount++;
-        }
-
-        //HI LO COUNT
-        if(cardValue >= 10) {
-            hiLoCount--;
-        } else
-        if(cardValue <= 6) {
-            hiLoCount++;
-        }
-
-        //OMEGA COUNT
-        switch (cardValue){
-            case 2:
-            case 3:
-            case 7:
-                omegaCount += 1;
-                break;
-            case 4:
-            case 5:
-            case 6:
-                omegaCount += 2;
-                break;
-            case 9:
-                omegaCount -= 1;
-                break;
-            case 10:
-                omegaCount -= 2;
-                break;
-        }
-
-        //WONG HALVES COUNT
-        switch (cardValue){
-            case 2:
-            case 7:
-                wongHalvesCount += 0.5;
-                break;
-            case 3:
-            case 4:
-            case 6:
-                wongHalvesCount += 1;
-                break;
-            case 5:
-                wongHalvesCount += 1.5;
-                break;
-            case 9:
-                wongHalvesCount -= 0.5;
-                break;
-            case 10:
-            case 11:
-                wongHalvesCount -= 1;
-                break;
-        }
-
+        updateCounts(card.getValue().value);
 
         return card;
     }
 
     public double getCount(CountingType type) {
-        return  allCount[type.ordinal ()] / (cards.size()/52.0);
-//        return type.isBalanced () ? allCount[type.ordinal ()] / (cards.size()/52.0) : allCount[type.ordinal ()];
-    }
-
-    public double getHiLoCount(){
-        return hiLoCount;
-    }
-
-    public double getHiLoTrueCount() {
-        return hiLoCount / (cards.size()/52.0);
-    }
-
-    public double getOmegaCount(){
-        return omegaCount;
-    }
-
-    public double getOmegaTrueCount() {
-        return omegaCount / (cards.size()/52.0);
-    }
-
-    public double getWongHalvesCount(){
-        return wongHalvesCount;
-    }
-
-    public double getWongHalvesTrueCount() {
-        return wongHalvesCount / (cards.size()/52.0);
-    }
-
-    public double getAcesCount() {
-        return (numberOfDecks * 4 - aceCount) / cards.size();
+        if (allCountingTypes[type.ordinal()].isBalanced()) {
+            return allCount[type.ordinal()] / (cards.size() / 52.0);
+        } else {
+            return allCount[type.ordinal()];
+        }
     }
 
     public boolean isInsuranceWorthIt() {
@@ -256,10 +119,10 @@ public class Shoe {
                 numTens++;
         }
 
-        return numTens / cards.size() > 0.3333333;
+        return numTens / cards.size() >= 0.3333334;
     }
 
-    public int getCardsLeftCount () {
+    public int getCardsLeftCount() {
         return cards.size();
     }
 
@@ -271,7 +134,7 @@ public class Shoe {
         }
 
         for (int i = 0; i < 10; i++) {
-            System.out.print((i + 2) + ": " + counts[i] + "\n");
+            System.out.print((i + 2) + ": " + counts[i] + "\t");
         }
         System.out.println();
     }
@@ -287,4 +150,8 @@ public class Shoe {
         return stringBuilder.toString();
     }
 
+    @Override
+    public Shoe clone() {
+        return new Shoe(new ArrayList<>(cards));
+    }
 }

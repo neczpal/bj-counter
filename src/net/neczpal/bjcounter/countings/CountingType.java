@@ -1,5 +1,7 @@
 package net.neczpal.bjcounter.countings;
 
+import java.util.List;
+
 public enum CountingType {
     CANFIELD_EXPERT                 (true, new double[]{0,0,1,1,1,1,1,0,-1,-1}),
     CANFIELD_MASTER                 (true, new double[]{0,1,1,2,2,2,1,0,-1,-2}),
@@ -22,17 +24,17 @@ public enum CountingType {
     USTON_ADV_PLUS_MINUS            (true, new double[]{-1,0,1,1,1,1,1,0,0,-1}),
     USTON_APC                       (true, new double[]{0,1,2,2,3,2,2,1,-1,-3}),
     USTON_SS                        (false, new double[]{-2,2,2,2,3,2,1,0,-1,-2}),
-    WONG_HALVES                     (true, new double[]{-1,.5,1,1,1,5,1,.5,0,-.5,-1}),
-    ZEN_COUNT                       (true, new double[]{-1,1,1,2,2,2,1,0,0,-2}),
+    WONG_HALVES                     (true, new double[]{-1,.5,1,1,1.5,1,.5,0,-.5,-1}),
+    ZEN_COUNT                       (true, new double[]{-1,1,1,2,2,2,1,0,0,-2});
 
-    INSURANCE_COUNT                 (false, new double[]{4,4,4,4,4,4,4,4,4,-9});
+//    INSURANCE_COUNT                 (false, new double[]{4,4,4,4,4,4,4,4,4,-9});
 
     private boolean isBalanced;
-    private double[] values;
+    private double[] countingValues;
 
-    CountingType(boolean isBalanced, double[] values) {
+    CountingType(boolean isBalanced, double[] countingValues) {
         this.isBalanced = isBalanced;
-        this.values = values;
+        this.countingValues = countingValues;
     }
 
     public boolean isBalanced () {
@@ -40,7 +42,7 @@ public enum CountingType {
     }
 
     public double getValue (int index) {
-        return values[index];
+        return countingValues[index];
     }
 }
 

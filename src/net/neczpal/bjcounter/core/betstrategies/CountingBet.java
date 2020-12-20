@@ -10,11 +10,6 @@ public class CountingBet extends ConstantBet {
     private int maxBetSpread;
     private CountingType countingStrategy;
 
-    public static final int HI_LO_COUNT=0, OMEGA_2_COUNT=1, WONG_HALVES_COUNT = 2;
-
-//    public CountingBet(double betSize, Shoe shoe, int minBetSpread, int maxBetSpread) {
-//        this(betSize, shoe, minBetSpread, maxBetSpread, HI_LO_COUNT);
-//    }
 
     public CountingBet(double betSize, Shoe shoe, int minBetSpread, int maxBetSpread, CountingType countingStrategy) {
         super(betSize);
@@ -26,25 +21,10 @@ public class CountingBet extends ConstantBet {
 
     @Override
     public double calculateNextBet() {
-        double trueCount = shoe.getCount (countingStrategy);
-//        switch (countingStrategy){
-//            case HI_LO_COUNT:
-//                trueCount = shoe.getHiLoTrueCount();
-//                break;
-//            case OMEGA_2_COUNT:
-//                trueCount = shoe.getOmegaTrueCount();
-//                break;
-//            case WONG_HALVES_COUNT:
-//                trueCount = shoe.getWongHalvesTrueCount();
-//                break;
-//            default:
-//                trueCount = shoe.getHiLoTrueCount();
-//        }
-
-        int roundedTrueCount = (int)Math.floor(trueCount);
+        double roundedCount = (int) shoe.getCount (countingStrategy);
 
         double betSize = getBetSize();
 
-        return Math.max(betSize * minBetSpread, Math.min(betSize * (roundedTrueCount - 1), betSize * maxBetSpread));
+        return Math.max(betSize * minBetSpread, Math.min(betSize * (roundedCount - 1), betSize * maxBetSpread));
     }
 }

@@ -14,7 +14,7 @@ public class RuleConfig {
     public boolean continuesShuffling;
     public int cutDeck;
 
-    public static RuleConfig DEFAULT = new RuleConfig(3 / 2., false, false, 0, 3, 1, false, true, 2, 8, 3, false);
+    public static RuleConfig DEFAULT = new RuleConfig(3 / 2., false, false, 0, 1, 1, false, true, 1, 8, 3, false);
 
     public RuleConfig(double bjPays, boolean dealerPeeks, boolean hitsSoft17, int doubleDownOptions, int splitX, int splitA, boolean drawToSplitAces, boolean doubleAfterSplit, int surrenderOptions, int numberOfDecks, int cutDeck, boolean continuesShuffling) {
         this.bjPays = bjPays;
