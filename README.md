@@ -30,4 +30,4 @@ The project is uploaded for educational purpose. Contribution and fair use of th
 
 Neczpál Ábel - [neczpal@gmail.com](mailto:neczpal@gmail.com)
 
-Project Link: [https://github.com/neczpal/nikolaus](https://github.com/neczpal/BJCounter)
+Project Link: [https://github.com/neczpal/BJCounter](https://github.com/neczpal/BJCounter)
