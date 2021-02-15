@@ -19,7 +19,7 @@ A blackjack card counter and simulator console program written in Java.
 
 ## License
 
-All Rights Reserved.
+MIT
 
 Copyright (c) 2020 Neczpál Ábel.
 
@@ -30,4 +30,4 @@ The project is uploaded for educational purpose. Contribution and fair use of th
 
 Neczpál Ábel - [neczpal@gmail.com](mailto:neczpal@gmail.com)
 
-Project Link: [https://github.com/neczpal/BJCounter](https://github.com/neczpal/BJCounter)
+Project Link - [https://github.com/neczpal/BJCounter](https://github.com/neczpal/BJCounter)
